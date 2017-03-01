@@ -40,7 +40,7 @@ public final class Person {
 }
 ```
 
-The result is suprisingly concise:  
+The result is surprisingly concise:  
 
 ```kotlin
 class Person(val name: String, var profession: String = Person.DEFAULT_PROFESSION) {
@@ -147,3 +147,97 @@ System.out.println(String.format("The square has side %d, area %d and perimeter 
                 square.getArea(),
                 square.getPerimeter()));
 ```
+
+If the property has an _is_ prefix, then it is a bit different : 
+
+_Kotlin_
+```kotlin
+class Dog(var isHappy: Boolean)
+```
+_Java_
+```java
+final Dog dog = new Dog(false);
+dog.setHappy(true);
+System.out.println ("The dog is " + (dog.isHappy() ? "happy." : "not happy.");
+```
+
+## Methods
+
+Kotlin methods are very similar to top level functions. If necessary you can use `this` like in Java to refer to the local instance.
+
+```kotlin
+class Rectangle(var width: Int, var height: Int) {
+    fun set(width: Int, height: Int) {
+        this.width = width
+        this.height = height
+    }
+    
+    fun calculateArea(): Int = width * height
+}
+```
+
+### Extensions Methods and Properties
+
+You can "add" new methods and properties to existing methods even if you do not have access to their souce code. Let's add a `capitalize()` method and a `isPalindrome` property to `String`.
+
+```Kotlin
+fun String.capitalize() = substring(0, 1).toUpperCase() + substring(1)
+val String.isPalindrome
+    get() = this == this.reversed()
+
+fun main(args: Array<String>) {
+    println("hello world!".capitalize()) //Hello world!
+    println("Foobar is a palindrome: ${"Foobar".isPalindrome}") //false
+    println("Radar is a palindrome: ${"radar".isPalindrome}") // true
+}
+```
+Beware that extensions on Kotlin are pure syntactic sugar. You are not actually adding new methods or properties to the receiver class. You only get the convenience of using the extensions as if they were defined by the receiver class. Therefore extensions only have access to public members of the receiver class and extension properties have no backing field. That is why the `String.isPalindrome` had to be defined thru a custom _getter_.
+
+## Visibility modifiers  
+
+## Enum classes
+
+## Data Classes
+
+## Nested and Inner classes
+A nested class is a class defined inside another class, but it is independent of its outer class. On the other hand an inner class is also a class defined inside another class, but it has a implicit reference to its outer class and previleged access to its private members. In Java inner classes are the default whereas in Kotlin nested classes are the default.
+
+_Java_
+```Java
+public class Outer {
+    private int counter = 0;
+    
+    public static class Nested {
+        public int foo;
+    }
+    
+    public class Inner {
+        public Outer increment() {
+            counter++;
+            return Outer.this;
+        }
+    }
+}
+```
+
+_Kotlin_
+```kotlin
+class Outer {
+    private var counter = 0
+
+    class Nested {
+        var foo: Int = 0
+    }
+
+    inner class Inner {
+        fun increment(): Outer {
+            counter++
+            return this@Outer
+        }
+    }
+}
+```
+
+Also note the different syntax to access the instance of the outer class `this@Outer`.
+
+
