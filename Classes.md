@@ -60,18 +60,18 @@ A couple interesting things to observe from this example:
 * The default visibility in Java is _package private_, whereas in Kotlin it is _public_. That is the reason why all the
 occurrences of the`public` keyword were omitted in the Kotlin code.
 * In Kotlin, all classes and methods **are _final_ by default**. That is why you see so many `final`s in the Java version.
-* Like Swift, Kotlin has _properties_ instead of _fields_. Thus you do not need to define _setters_ and _getters_ if they are trivial. Kotlin tries to be so succint that you can define the primary constructor of the class in the class body. Moreover you can reuse the parameters of the constructor to define properties by prefixing them with `var` and `val`.
+* Like Swift, Kotlin has _properties_ instead of _fields_. Thus you do not need to define _setters_ and _getters_ if they are trivial. Kotlin tries to be so succint that you can define the primary constructor of the class in the class' body. Moreover you can reuse the parameters of the constructor to define properties by prefixing them with `var` and `val`.
 * The constructor's parameters can have default values, so you do not need to overload it.
 * Kotlin classes do not have static fields. However you can associate an object &mdash; the companion object &mdash &mdash; with a class.
 
-Creating an object of the class `Person` is simple, you don't use the `new` keyword: 
+Creating an object of the class `Person` is simple You don't use the `new` keyword: 
 ```kotlin
 val genius = Person("Albert Enstein", "Theoretical Physicist")
 ```
 
 ## Properties
 
-Kotlin has properties. So behind the curtains it creates a backing field and generate trivial _setters_ and _getters_. Properties must always be initialized even if they are nullable.
+Kotlin has properties. So behind the curtains it creates a backing field and generates trivial _setters_ and _getters_. Properties must always be initialized even if they are nullable.
 
 ```kotlin
 class Rectangle(width: Int, height: Int) {
@@ -108,7 +108,7 @@ class Foobar(var foo:Int, val bar: Int)
 
 ### Custom setters and getter and computed properties
 
-If the trivial _setter_ and _getter_ does not suffice you can define customs ones. The backing field for the property can be accessed using the `field` identifier.
+If the trivial _setter_ and _getter_ pair does not suffice you can define customs ones. The backing field for the property can be accessed using the `field` identifier.
 
 ```kotlin
 class Square(length: Int) {
@@ -178,7 +178,7 @@ class Rectangle(var width: Int, var height: Int) {
 
 ### Extensions Methods and Properties
 
-You can "add" new methods and properties to existing methods even if you do not have access to their souce code. Let's add a `capitalize()` method and a `isPalindrome` property to `String`.
+You can "add" new methods and properties to existing classes even if you do not have access to their souce code. Let's add a `capitalize()` method and a `isPalindrome` property to `String`.
 
 ```Kotlin
 fun String.capitalize() = substring(0, 1).toUpperCase() + substring(1)
@@ -191,9 +191,11 @@ fun main(args: Array<String>) {
     println("Radar is a palindrome: ${"radar".isPalindrome}") // true
 }
 ```
-Beware that extensions on Kotlin are pure syntactic sugar. You are not actually adding new methods or properties to the receiver class. You only get the convenience of using the extensions as if they were defined by the receiver class. Therefore extensions only have access to public members of the receiver class and extension properties have no backing field. That is why the `String.isPalindrome` had to be defined thru a custom _getter_.
+Beware that extensions on Kotlin are pure syntactic sugar. You are not actually adding any new methods or properties to the receiver class. You only get the convenience of using the extensions as if they were defined by the receiver class. Therefore extensions have access only to public members of the receiver class. Extension properties have no backing field. That is why the `String.isPalindrome` has to be defined thru a custom _getter_.
 
 ## Visibility modifiers  
+
+## Constructors and initialization blocks
 
 ## Enum classes
 
